@@ -2,7 +2,8 @@
 
 import sys
 
-from .exif import MetaTool, ExifToolError
+from l4meta.exif import ExifToolError
+from l4meta.meta import MetaTool
 from argparse import ArgumentParser, FileType
 
 
