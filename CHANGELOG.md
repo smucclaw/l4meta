@@ -1,14 +1,16 @@
 # Changelog
 
+## [Unreleased]
+
 ## [0.1.0] - 2021-05-31
-### [Added]
+### Added
 - Initial release
 
-## [0.1.1] - 2021-06-01
-### [Added]
+## [0.1.1] - 2021-06-02
+### Added
 - Include CHANGELOG file
 
-### [Changed]
+### Changed
 - Refactor `l4meta` package by splitting `exiftool` and `metatool` logic
 - Update xmp.config to allow writing to Custom Properties for viewing in Adobe Acrobat
 - Repalce greeting.pdf with Custom Properties example
