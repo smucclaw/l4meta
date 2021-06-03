@@ -1,6 +1,11 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks,linux,macos,windows,vim,emacs,vscode
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,jupyternotebooks,linux,macos,windows,vim,emacs,vscode
 
+### Custom ###
+demo
+!demo/plain.pdf
+!demo/greeting.pdf
+
 ### JupyterNotebooks ###
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
