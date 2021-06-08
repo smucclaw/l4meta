@@ -111,7 +111,7 @@ def run():
     except ExifToolError as e:
         print(e)
         sys.exit(1)
-    except Error:
+    except Exception:
         pass
 
 
