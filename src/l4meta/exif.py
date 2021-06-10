@@ -2,16 +2,11 @@
 
 import subprocess
 import os
-import sys
-import shlex
 import shutil
-import json
-import yaml
 
 from contextlib import contextmanager
 from subprocess import CompletedProcess
-from tempfile import gettempdir
-from typing import TextIO, List
+from typing import List
 
 __all__ = [
         'ExifTool',
