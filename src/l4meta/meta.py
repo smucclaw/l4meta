@@ -1,15 +1,12 @@
 """meta.py."""
 
-import subprocess
 import os
 import sys
 import shlex
-import shutil
 import json
 import yaml
 
 from l4meta.exif import ExifTool
-from contextlib import contextmanager
 from subprocess import CompletedProcess
 from tempfile import gettempdir
 from typing import TextIO, List
