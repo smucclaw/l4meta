@@ -30,13 +30,13 @@ def find_duplicates(directory):
 def join_dictionaries(dict1, dict2):
     """Join two dictionaries."""
     for key in dict2.keys():
-        dict1[key] = dict1[key] if key in dict1 else '' + dict2[key]
+        dict1[key] = dict1[key] if key in dict1 else  dict2[key]
 
 
 def calculate_hash(path, blocksize: int = 65536):
     """Calculate hash of a path."""
     afile = open(path, 'rb')
-    hasher = hashlib.md5()
+    hasher = hashlib.sha256()
     buf = afile.read(blocksize)
     while len(buf) > 0:
         hasher.update(buf)
