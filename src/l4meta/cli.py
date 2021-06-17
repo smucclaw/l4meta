@@ -1,9 +1,10 @@
 """cli.py."""
 
 import sys
+import l4meta.operations as operations
 
-from l4meta.exif import ExifToolError
-from l4meta.meta import MetaTool
+from l4meta.errors import ExifToolError
+from l4meta.operations import read_single, read_multiple
 from argparse import ArgumentParser, FileType
 
 
@@ -88,12 +89,11 @@ def validate(parser, args):
 
 def execute(args):
     """Execute l4meta."""
-    metatool = MetaTool()
     if not args.write:
-        return metatool.read_multiple_files(args.read, args.type)
+        return operations.read(args.read, args.type)
     if not args.read and args.write and args.meta:
         raise ExifToolError('Error: Batch mode not supported yet.')
-    if not metatool.write_file(
+    if not operations.write_single(
             input_file=args.read[0],
             output_file=args.write[0],
             metadata=args.meta):
