@@ -4,7 +4,6 @@ import sys
 import l4meta.operations as operations
 
 from l4meta.errors import ExifToolError
-from l4meta.operations import read_single, read_multiple
 from argparse import ArgumentParser, FileType
 
 

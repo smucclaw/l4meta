@@ -4,7 +4,6 @@ import json
 import yaml
 
 from l4meta.errors import ExifToolError
-from tempfile import gettempdir
 from typing import TextIO, List
 
 __all__ = [
@@ -38,13 +37,13 @@ def read_file(content: TextIO) -> str:
 def flatten(content: TextIO) -> str:
     """Flatten the metadata."""
     raw_metadata = read_file(content)
-    parsed_metadata =  parse(raw_metadata)
+    parsed_metadata = parse(raw_metadata)
     return convert_to_input(parsed_metadata)
 
 
 def dump(meta: dict, format: str = 'json', indent: int = 4) -> str:
-    is_allowed_format(format, ['json', 'yaml'])
     """Convert the metadata into a string depending on the output format."""
+    is_allowed_format(format, ['json', 'yaml'])
     if format == 'yaml':
         return yaml.dump(meta)
     return json.dumps(meta, indent=indent)

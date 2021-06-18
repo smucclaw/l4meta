@@ -96,7 +96,7 @@ def read_multiple(filenames: List[str], format: str = 'json') -> str:
 def write_single(input_file: str, output_file: str, metadata: str) -> bool:
     """Write metadata to a single file."""
     if output_file == '-':
-        raise ExifToolError(f'\'-\' not supported yet!')
+        raise ExifToolError('\'-\' not supported yet!')
     input_file = get_absolute_path(input_file)
     output_file = get_absolute_path(output_file, False)
     is_allowed_filetype(input_file)
@@ -108,6 +108,7 @@ def write_single(input_file: str, output_file: str, metadata: str) -> bool:
 
 
 def write_multiple() -> None:
+    """Write metadata for multiple files."""
     pass
 
 
