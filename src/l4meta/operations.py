@@ -56,7 +56,7 @@ def run(arguments: str) -> CompletedProcess:
 
     args_builder = f'{bin_exiftool} -config {path_config} {arguments}'
     args = shlex.split(args_builder, posix=0)
-    return executable.execute(args)
+    return executable.execute(*args)
 
 
 def read(filenames: List[str], format: str = 'json') -> str:

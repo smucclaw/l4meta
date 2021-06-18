@@ -4,7 +4,6 @@ import subprocess
 import shutil
 
 from subprocess import CompletedProcess
-from typing import List
 from l4meta.errors import ExifToolError
 
 __all__ = ['binary', 'execute']
@@ -18,7 +17,7 @@ def binary(executable: str) -> str:
     return bin_path
 
 
-def execute(arguments: List[str]) -> CompletedProcess:
+def execute(*arguments: str) -> CompletedProcess:
     """Execute the command."""
     return subprocess.run(
         arguments,
