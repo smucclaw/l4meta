@@ -20,11 +20,10 @@ __all__ = [
 ]
 
 
-def get_config_path(
-        directory: str = 'config', resource: str = 'xmp.config') -> str:
+def get_config_path(location: str = 'config/xmp.config') -> str:
     """Get the path of the config file."""
     module_path = os.path.dirname(l4meta.__file__)
-    return os.path.join(module_path, directory, resource)
+    return os.path.join(module_path, location)
 
 
 def get_absolute_path(location: str, check_required: bool = True) -> str:
