@@ -102,8 +102,12 @@ def write_single(input_file: str, output_file: str, metadata: str) -> bool:
     is_allowed_filetype(output_file)
 
     metadata = mt.flatten(metadata)
-    process = write_metadata(metadata, input_file, output_file)
-    return process.returncode == 0
+    with TemporaryFile(name='temp.json') as temp_file:
+        temp_file.write(metadata + "\n")
+
+        command = f'-j+={temp_file.path} -q -o {output_file} {input_file}'
+        process = run(command)
+        return process.returncode == 0
 
 
 def write_multiple() -> None:
@@ -111,15 +115,27 @@ def write_multiple() -> None:
     pass
 
 
-def write_metadata(
-        metadata: str, input_file: str, output: str = '-',
-        temporary_file: str = 'temp_meta.json') -> CompletedProcess:
-    """Write metadata for a single input file to a single output."""
-    temporary_file = f'{gettempdir()}/{temporary_file}'
-    with open(temporary_file, 'w+') as t:
-        t.write(metadata + "\n")
-    command = f'-j+={temporary_file} -q -o {output} {input_file}'
-    process = run(command)
+class TemporaryFile:
+    """Temporary file context manager."""
 
-    os.remove(temporary_file)
-    return process
+    def __init__(self, name: str, mode: str = 'w+') -> None:
+        self.path = self.get_absolute_path(name)
+        self.mode = mode
+
+    def __enter__(self):
+        self.file = open(self.path, self.mode)
+        return self
+
+    def __exit__(self, exec_type, exec_value, traceback):
+        self.file.close()
+        os.remove(self.path)
+        return self
+
+    def get_absolute_path(self, location: str) -> str:
+        """Get the absolute path of the file."""
+        return os.path.join(gettempdir(), location)
+
+    def write(self, contents: str) -> None:
+        """Write the file."""
+        self.file.write(contents)
+        self.file.seek(0)
