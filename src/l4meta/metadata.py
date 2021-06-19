@@ -10,6 +10,7 @@ __all__ = [
         'flatten',
         'dump',
         'parse',
+        'write_file',
         'convert_to_output',
         'convert_to_input'
 ]
@@ -27,16 +28,22 @@ def is_json(metadata: str) -> bool:
     return metadata[0] in ['{', '[']
 
 
-def read_file(content: TextIO) -> str:
+def read_content(content: TextIO) -> str:
     """Read the metadata file."""
     if content.isatty():
         raise ExifToolError('Need an input to metadata!')
     return content.read()
 
 
+def write_file(filename: str, content: str) -> None:
+    """Write contents of metadata to a file."""
+    with open(filename, 'w') as out:
+        out.write(content)
+
+
 def flatten(content: TextIO) -> str:
     """Flatten the metadata."""
-    raw_metadata = read_file(content)
+    raw_metadata = read_content(content)
     parsed_metadata = parse(raw_metadata)
     return convert_to_input(parsed_metadata)
 

@@ -88,9 +88,7 @@ def read_multiple(filenames: List[str], format: str = 'json') -> str:
     for file in filenames:
         filename = get_matching_filename(file)
         metadata = read_single(file, format)
-        with open(filename, 'w') as out:
-            out.write(metadata)
-
+        mt.write_file(filename, metadata)
 
 def write_single(input_file: str, output_file: str, metadata: str) -> bool:
     """Write metadata to a single file."""
