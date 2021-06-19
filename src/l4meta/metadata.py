@@ -4,7 +4,7 @@ import json
 import yaml
 
 from l4meta.errors import ExifToolError
-from typing import TextIO, List
+from typing import TextIO, List, Callable
 
 __all__ = [
         'flatten',
@@ -56,7 +56,7 @@ def dump(meta: dict, format: str = 'json', indent: int = 4) -> str:
     return json.dumps(meta, indent=indent)
 
 
-def parse(metadata: str, is_json=is_json) -> dict:
+def parse(metadata: str, is_json: Callable[[str], bool] = is_json) -> dict:
     """Parse the input string.
 
     Args:
@@ -98,4 +98,4 @@ def convert_to_input(meta: str, prefix: str = 'L4') -> str:
         meta = {prefix: meta}
         return json.dumps(meta)
     except Exception:
-        return {}
+        return json.dumps({})
