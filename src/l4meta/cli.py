@@ -3,7 +3,6 @@
 import sys
 import l4meta.operations as operations
 
-from l4meta.errors import ExifToolError
 from argparse import ArgumentParser, FileType
 
 
@@ -91,12 +90,12 @@ def execute(args):
     if not args.write:
         return operations.read(args.read, args.type)
     if not args.read and args.write and args.meta:
-        raise ExifToolError('Error: Batch mode not supported yet.')
+        raise Exception('Error: Batch mode not supported yet.')
     if not operations.write_single(
             input_file=args.read[0],
             output_file=args.write[0],
             metadata=args.meta):
-        raise ExifToolError()
+        raise Exception()
     return 'Write into ' + args.write[0] + ' successful!'
 
 
@@ -107,11 +106,9 @@ def run():
     validate(parser, args)
     try:
         print(execute(args))
-    except ExifToolError as e:
+    except Exception as e:
         print(e)
         sys.exit(1)
-    except Exception:
-        pass
 
 
 def main():

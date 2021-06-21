@@ -6,7 +6,6 @@ import l4meta
 import l4meta.executable as executable
 import l4meta.metadata as mt
 
-from l4meta.errors import ExifToolError
 from subprocess import CompletedProcess
 from tempfile import gettempdir
 from typing import List
@@ -30,7 +29,7 @@ def get_absolute_path(location: str, check_required: bool = True) -> str:
     """Get the absolute path of a file."""
     path = os.path.abspath(location)
     if check_required and not os.path.isfile(path):
-        raise ExifToolError(f'File not found - {path}')
+        raise FileNotFoundError(f'File not found - {path}')
     return path
 
 
@@ -45,7 +44,7 @@ def is_allowed_filetype(
     """Check that the file is among the approved filetypes."""
     _, ext = os.path.splitext(location)
     if ext[1:] not in allowed_filetypes:
-        raise ExifToolError(f'Not an allowed filetype - {ext[1:]}')
+        raise Exception(f'Not an allowed filetype - {ext[1:]}')
 
 
 def run(arguments: str) -> CompletedProcess:
@@ -61,7 +60,7 @@ def run(arguments: str) -> CompletedProcess:
 def read(filenames: List[str], format: str = 'json') -> str:
     """Read metadata from multiple files."""
     if not filenames:
-        raise ExifToolError()
+        raise Exception('No files read!')
     if len(filenames) == 1:
         metadata = read_single(filenames[0], format)
         return mt.dump(metadata)
@@ -77,7 +76,7 @@ def read_single(filename: str, format: str = 'json') -> str:
     command = f'-j {filename}'
     process = run(command)
     if process.returncode != 0:
-        raise ExifToolError('Unable to read file!')
+        raise Exception('Unable to read file!')
 
     output = process.stdout
     return mt.convert_to_output(output)
@@ -93,7 +92,7 @@ def read_multiple(filenames: List[str], format: str = 'json') -> str:
 def write_single(input_file: str, output_file: str, metadata: str) -> bool:
     """Write metadata to a single file."""
     if output_file == '-':
-        raise ExifToolError('\'-\' not supported yet!')
+        raise Exception('\'-\' not supported yet!')
     input_file = get_absolute_path(input_file)
     output_file = get_absolute_path(output_file, False)
     is_allowed_filetype(input_file)

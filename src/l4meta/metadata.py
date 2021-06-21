@@ -3,7 +3,6 @@
 import json
 import yaml
 
-from l4meta.errors import ExifToolError
 from typing import TextIO, List, Callable
 
 __all__ = [
@@ -20,7 +19,7 @@ def is_allowed_format(
         format: str, allowed_formats: List[str] = ['json', 'yaml']) -> None:
     """Check that the format is among the allowed format."""
     if format not in allowed_formats:
-        raise ExifToolError(f'Not an allowed format - {format}')
+        raise Exception(f'Not an allowed format - {format}')
 
 
 def is_json(metadata: str) -> bool:
@@ -31,7 +30,7 @@ def is_json(metadata: str) -> bool:
 def read_content(content: TextIO) -> str:
     """Read the metadata file."""
     if content.isatty():
-        raise ExifToolError('Need an input to metadata!')
+        raise Exception('Need an input to metadata!')
     return content.read()
 
 
