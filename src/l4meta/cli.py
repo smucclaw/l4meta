@@ -68,9 +68,6 @@ def validate(parser, args):
     """Validate the arguments being passed into the command line interface."""
     if len(sys.argv) == 1:
         parser.error('You must specify a file to read/write.')
-    multiple_files_read = args.read and len(args.read) > 1
-    if multiple_files_read:
-        parser.error('Reading multiple files not supported currently.')
     multiple_files_written = args.write and len(args.write) > 1
     if multiple_files_written:
         parser.error('Writing multiple files not supported currently.')

@@ -62,10 +62,10 @@ def read(filenames: List[str], format: str = 'json') -> str:
     if not filenames:
         raise Exception('No files read!')
     if len(filenames) == 1:
-        metadata = read_single(filenames[0], format)
-        return mt.dump(metadata)
+        return read_single(filenames[0], format)
     if True:
         read_multiple(filenames, format)
+        return 'Successfully written metadata!'
 
 
 def read_single(filename: str, format: str = 'json') -> str:
@@ -79,13 +79,14 @@ def read_single(filename: str, format: str = 'json') -> str:
         raise Exception('Unable to read file!')
 
     output = process.stdout
-    return mt.convert_to_output(output)
+    metadata = mt.convert_to_output(output)
+    return mt.dump(metadata, format)
 
 
-def read_multiple(filenames: List[str], format: str = 'json') -> str:
+def read_multiple(filenames: List[str], format: str = 'json') -> None:
     """Read metadata from multiple files."""
     for file in filenames:
-        filename = get_matching_filename(file)
+        filename = get_matching_filename(file, format)
         metadata = read_single(file, format)
         mt.write_file(filename, metadata)
 
