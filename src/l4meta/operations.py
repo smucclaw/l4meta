@@ -1,5 +1,6 @@
 """Operations."""
 
+import glob
 import os
 import shlex
 import l4meta
@@ -39,6 +40,34 @@ def get_matching_filename(filename: str, format: str = 'json') -> str:
     return f'{name}.yml' if format == 'yaml' else f'{name}.json'
 
 
+def get_filetypes(format: str = 'json') -> List[str]:
+    """Get filetypes based on specified format."""
+    return ['yml', 'yaml'] if format == 'yaml' else [format]
+
+
+def get_filenames(format: str = 'json') -> List[str]:
+    """Get a list of files based on format."""
+    filenames = []
+    for type in get_filetypes(format):
+        filenames.extend(glob.glob(f'*.{type}'))
+    return filenames
+
+
+def get_filenames_names_only(*filenames: str) -> List[str]:
+    """Get a list of files with names only."""
+    return [os.path.splitext(file)[0] for file in filenames]
+
+
+def get_same_filename_pair(
+        filenames: List[str], format: str = 'json') -> List[str]:
+    """Get names of duplicate filenames."""
+    filenames = get_filenames_names_only(*filenames)
+    metafiles = get_filenames(format)
+    metafiles = get_filenames_names_only(*metafiles)
+    duplicate_names = set(filenames).intersection(metafiles)
+    return list(duplicate_names)
+
+
 def is_allowed_filetype(
         location: str, allowed_filetypes: List[str] = ['pdf']) -> None:
     """Check that the file is among the approved filetypes."""
@@ -63,9 +92,11 @@ def read(filenames: List[str], format: str = 'json') -> str:
         raise Exception('No files read!')
     if len(filenames) == 1:
         return read_single(filenames[0], format)
-    if True:
-        read_multiple(filenames, format)
-        return 'Successfully written metadata!'
+    same_filename_pairs = get_same_filename_pair(filenames, format)
+    if len(same_filename_pairs) > 0:
+        raise Exception('error: duplicate filenames present!')
+    read_multiple(filenames, format)
+    return 'Successfully written metadata!'
 
 
 def read_single(filename: str, format: str = 'json') -> str:
