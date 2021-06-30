@@ -12,6 +12,7 @@
 - Refactor to use functional paradigm instead of object-oriented, split up code for reusability
 - Remove custom exceptions
 - `parse_args` in `cli.py` is a separate function
+- Update README to include instructions for reading multiple files, remove future work section
 
 ## [0.1.2] - 2021-06-10
 ### Fixed
