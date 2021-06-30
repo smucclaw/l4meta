@@ -64,6 +64,14 @@ def arguments() -> ArgumentParser:
     return parser
 
 
+def parse_args(argv):
+    """Parse arguments."""
+    parser = arguments()
+    args = parser.parse_args(argv)
+    validate(parser, args)
+    return args
+
+
 def validate(parser, args):
     """Validate the arguments being passed into the command line interface."""
     if len(sys.argv) == 1:
@@ -96,21 +104,14 @@ def execute(args):
     return 'Write into ' + args.write[0] + ' successful!'
 
 
-def run():
-    """Parse and run l4meta."""
-    parser = arguments()
-    args = parser.parse_args()
-    validate(parser, args)
+def main():
+    """Run main function."""
+    args = parse_args(sys.argv[1:])
     try:
         print(execute(args))
     except Exception as e:
         print(e)
         sys.exit(1)
-
-
-def main():
-    """Run main function."""
-    run()
 
 
 if __name__ == '__main__':
