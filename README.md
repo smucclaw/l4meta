@@ -12,7 +12,6 @@ The `l4meta` tool is a command line tool to read/write metadata to/from a docume
 
 You will need:
 - Python 3.6 and above
-    - Note: If you have both Python 2 and 3 installed on your machine, use `python3` or `pip3` in place of `python` and `pip` respectively
 - [exiftool](https://exiftool.org/)
 
 To install, clone this repository and run:
@@ -55,6 +54,8 @@ In the `demo/` directory you will find:
 $ l4meta [file ...]
 ```
 
+#### Single File
+
 For example, to read **greeting.pdf**, execute the following command:
 
 ```console
@@ -88,6 +89,18 @@ However, if you run the same command for **plain.pdf**, it will return:
 { }
 ```
 
+#### Multiple Files
+
+To read multiple files, execute the following command:
+
+```console
+$ l4meta *.pdf
+```
+
+In the case of the `demo\` directory, it will output two **json** files: `plain.json` and `greeting.json`.
+
+You can also use the `--type yaml`, `--yaml` or `-y` just as you would for a single file. It will output two **yaml** files: `plain.yml` and `greeting.yml`.
+
 ### Writing
 
 ```console
@@ -115,8 +128,3 @@ $ l4meta greeting.pdf | l4meta plain.pdf --write plainv1.pdf --meta
 ```
 
 You can verify that your new **plainv1.pdf** file has the metadata; just follow the instructions from the [Reading](#reading) section above but replace the filename to be read with the location of your new file, e.g. **plainv1.pdf**.
-
-## Future Work
-
-- [ ] Add batch mode
-- [ ] Add support for converting `docx` to `pdf` and writing metadata in a single write operation

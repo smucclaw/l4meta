@@ -1,9 +1,8 @@
 """cli.py."""
 
 import sys
+import l4meta.operations as operations
 
-from l4meta.exif import ExifToolError
-from l4meta.meta import MetaTool
 from argparse import ArgumentParser, FileType
 
 
@@ -65,13 +64,18 @@ def arguments() -> ArgumentParser:
     return parser
 
 
+def parse_args(argv):
+    """Parse arguments."""
+    parser = arguments()
+    args = parser.parse_args(argv)
+    validate(parser, args)
+    return args
+
+
 def validate(parser, args):
     """Validate the arguments being passed into the command line interface."""
     if len(sys.argv) == 1:
         parser.error('You must specify a file to read/write.')
-    multiple_files_read = args.read and len(args.read) > 1
-    if multiple_files_read:
-        parser.error('Reading multiple files not supported currently.')
     multiple_files_written = args.write and len(args.write) > 1
     if multiple_files_written:
         parser.error('Writing multiple files not supported currently.')
@@ -88,36 +92,26 @@ def validate(parser, args):
 
 def execute(args):
     """Execute l4meta."""
-    metatool = MetaTool()
     if not args.write:
-        return metatool.read_multiple_files(args.read, args.type)
+        return operations.read(args.read, args.type)
     if not args.read and args.write and args.meta:
-        raise ExifToolError('Error: Batch mode not supported yet.')
-    if not metatool.write_file(
+        raise Exception('Error: Batch mode not supported yet.')
+    if not operations.write_single(
             input_file=args.read[0],
             output_file=args.write[0],
             metadata=args.meta):
-        raise ExifToolError()
+        raise Exception()
     return 'Write into ' + args.write[0] + ' successful!'
-
-
-def run():
-    """Parse and run l4meta."""
-    parser = arguments()
-    args = parser.parse_args()
-    validate(parser, args)
-    try:
-        print(execute(args))
-    except ExifToolError as e:
-        print(e)
-        sys.exit(1)
-    except Exception:
-        pass
 
 
 def main():
     """Run main function."""
-    run()
+    args = parse_args(sys.argv[1:])
+    try:
+        print(execute(args))
+    except Exception as e:
+        print(e)
+        sys.exit(1)
 
 
 if __name__ == '__main__':
