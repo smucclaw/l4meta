@@ -1,6 +1,19 @@
 # L4 Metadata Tool
 
-The `l4meta` tool is a command line tool to read/write metadata to/from a document.
+The `l4meta` tool is a command line tool to read/write metadata to/from a PDF document.
+
+What document? Perhaps a commercial contract, like a lease or sales agreement.
+
+What metadata? Perhaps an encoding of that contract in a DSL like L4.
+
+This allows "dumb PDFs" to become "smart", by embedding the semantics
+of the contract in the contract itself, in a machine-readable way.
+
+## Inspiration
+
+Photographs are JPEGs containing EXIF metadata.
+
+Why aren't contracts PDFs containing L4 metadata?
 
 ## Features
 
